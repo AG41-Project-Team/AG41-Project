@@ -1,0 +1,70 @@
+import gexperiment.diffbatch.*;
+import gio.GLog;
+import gsolver.*;
+import gsupplychain.*;
+import gsupplychain.diffbatch.*;
+import gsupplychain.diffbatch.solver.*;
+
+
+
+/**
+ * @author Olivier Grunder
+ *
+ */
+public class Main {
+	
+	private static void solveDiffBatchFile(String string) {
+
+		GLog glog = new GLog() ;
+		
+		GSupplyChainProblem scpb = new GSupplyChainProblem() ;
+		scpb.setFilename(string) ;
+		scpb.open(string) ;
+		
+		glog.println("Supply Chain problem ="+scpb.toString()) ;
+		
+		GSupplyChainDiffBatchSolverChainedGreedyv01 greedy = new GSupplyChainDiffBatchSolverChainedGreedyv01(scpb, glog) ;
+		greedy.solve(GSolver.MODE_NO_THREAD) ;
+		
+		glog.println("\n----------------------------------------------") ;
+		glog.println("Dynamic Prog solution ="+greedy.getBestSolution().toString()) ;
+		
+		GSupplyChainDiffBatchSolverChainedBBPv03 bbp = new GSupplyChainDiffBatchSolverChainedBBPv03(scpb, glog, -1) ;
+		bbp.solve(GSolver.MODE_NO_THREAD) ;
+		
+		glog.println("\n----------------------------------------------") ;
+		glog.println("Dynamic Prog solution ="+bbp.getBestSolution().toString()) ;
+		glog.println("\n----------------------------------------------\n") ;
+		
+		double deviation = (greedy.getBestSolution().getEvaluation()-bbp.getBestSolution().getEvaluation())/bbp.getBestSolution().getEvaluation() ;
+		glog.println("DEVIATION = "+(deviation*100)+"%") ;
+	}
+
+	private static void aff (String st) { System.out.println (st) ; }
+
+	private static void diffbatch() {
+
+//		new ExperimentDiffBatchExp1BbpV01V02().launch() ;
+//		new ExperimentDiffBatchExp1BbpV02V03().launch() ;
+		
+		new ExperimentDiffBatchExp1Greedyv02AG().launch() ;
+		
+//		new ExperimentEcc09MonoProductGreedyDynProgGeneralCost().launch() ;
+//		new ExperimentMaxDeviationMonoProductGreedyDynProg().launch() ;
+		
+//		new ExperimentDiffBatchExp2FindInstanceMaxDeviation().launch() ;
+
+//    	solveDiffBatchFile("data/glsdsp-diffbatch-sl1np8t1-second.txt") ;
+		
+//		FindInstanceMaxDeviation () ;
+	}
+	
+	//----------------------------------------
+    public static void main(String[] args) {
+    	diffbatch() ;   	
+   }
+
+
+
+
+}

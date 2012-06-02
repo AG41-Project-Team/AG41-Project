@@ -1,0 +1,69 @@
+Pour ECLIPSE : 
+============
+
+Installer le greffon subclipse :
+------------------------------
+- Help/Software Updates/Find and Install...
+- New Remote Site : Name = subclipse ; Url = http://subclipse.tigris.org/update_1.2.x
+- Ne pas installer les modules optionnels (buckminster et autres...)
+
+Créer un nouveau projet SVN :
+---------------------------
+- New repository
+- url : http://pc-gi-169/devsvn/glsdsp
+- pour les projets glsdsp, glsdsp-ksp-bench, il faut modifier les propriétés
+du projet java de façon à être compatible avec la version de java 5.0
+	. Properties / Java compiler / Enable Project specific settings
+	. Compilet compliance level => 5.0
+
+
+Sans Eclipse :
+============
+
+Import initial du répertoire courant dans gldsp/trunk :
+-----------------------------------------------------
+
+    svn import . http://localhost/devsvn/glsdp/trunk -m 'Import initial supplychain mono produit mono transporteur'
+
+
+Récupération d'une copie de travail du projet dans dev/glsdp :
+------------------------------------------------------------
+
+    cd ~/dev
+    svn checkout http://localhost/devsvn/glsdp
+
+
+Création du répertoire tags pour stocker les différentes releases :
+-----------------------------------------------------------------
+
+    cd ~/dev/glsdp
+    svn mkdir tags
+
+Création d'un "tag" "supplylink-monoproduct-monotransporteur" :
+-------------------------------------------------------------
+
+Then we simply make a copy of the trunk to the tags directory :
+
+    cd ~/dev/glsdp
+    svn copy trunk/ tags/supplylink-monoproduct-monotransporteur
+
+Then we simply commit this copy :
+
+    svn commit -m "supplylink-monoproduct-monotransporteur" tags/
+
+
+Création d'un "tag" "supplychain-monoproduct-monotransporteur" :
+-------------------------------------------------------------
+
+Then we simply make a copy of the trunk to the tags directory :
+
+    cd ~/dev/glsdp
+    svn copy trunk/ tags/supplylink-monoproduct-monotransporteur
+
+Then we simply commit this copy :
+
+    svn commit -m "supplylink-monoproduct-monotransporteur" tags/
+
+
+
+
